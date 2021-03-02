@@ -297,7 +297,6 @@ const isComplete = function () {
         toastr.error('請選擇日期');
         return false;
       }
-      break;
     case 1:
       steps[1]['inputs'].forEach((item) => {
         if (!item.check(item.ele)) {
