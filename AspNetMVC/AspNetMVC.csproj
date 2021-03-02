@@ -318,10 +318,6 @@
     <Compile Include="ViewModels\MemberCenterViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\UCleanerDbContextFile.mdf" />
-    <Content Include="App_Data\UCleanerDbContextFile_log.ldf">
-      <DependentUpon>UCleanerDbContextFile.mdf</DependentUpon>
-    </Content>
     <Content Include="Assets\Css\Account\ForgotPassword.css" />
     <Content Include="Assets\Css\Account\Register.css" />
     <Content Include="Assets\Css\Account\RegisterEmailActivation.css" />
