@@ -1,4 +1,6 @@
-﻿window.onload = function () {
+﻿import { data } from "jquery";
+
+window.onload = function () {
     deleteFromFavorite();
 }
 
@@ -17,8 +19,26 @@ var FavoriteArea = new Vue({
         DataArray: {
             RequestUrl: '/ProductPage/SearchForFavorite',
             FavoriteDataArray: [],
+           
 
         },
+        SameUserDefindIdProductData: {
+            RequestUrl: '/ProductPage/SearchAllUserDefinedByFavoriteId',
+            ProductArray:[]
+        },
+        Roomtypeoptions: [
+            { name: '廚房', value: '0' },
+            { name: '客廳', value: '1' },
+            { name: '臥室', value: '2' },
+            { name: '浴廁', value: '3' },
+            { name: '陽台', value: '4' }
+        ],
+        Squareoptions: [
+            { name: '5坪以下', value: '0' },
+            { name: '6-10坪', value: '1' },
+            { name: '11-15坪', value: '2' },
+            { name: '16坪以上', value: '3' },
+        ],
 
     },
     created: function () {
@@ -44,21 +64,32 @@ var FavoriteArea = new Vue({
                                 PhotoUrl: x.Data.map(y => y.PhotoUrl),
                                 FavoriteId: x.FavoriteId,
                                 IsPackage: x.IsPackage
-                            //Price: x.Data[0].Price,
-                            //Hour: x.Data[0].Hour,
-                            //Title: x.Data[0].Title,
-                            //SquareFeet: x.Data[0].Squarefeet,
-                            //ServiceItem: x.Data[0].ServiceItem,
-                            //RoomType: x.Data[0].RoomType,
-                            //PhotoUrl: x.Data[0].PhotoUrl,
-                            //FavoriteId: x.FavoriteId
+
                         }))
                         console.log(this.DataArray.FavoriteDataArray)
                     }
                 })
         },
+        getSameUserDefindIdProduct() {
+            var UserdefindedId=$(this).attr("id").replace("modiftybtn", "")
+            axios.post(this.SameUserDefindIdProductData.RequestUrl, UserdefindedId)
 
-
+                .then(res => {
+                    console.log(res.data)
+                    if (Array.isArray(res.data)) {
+                        this.SameUserDefindIdProductData.ProductArray = res.data.map(x => (
+                            {
+                                RoomType: x.RoomType,
+                                SquareFeet: x.Squarefeet,
+                                Index: x.Index,
+                                ServiceItem: x.ServiceItem
+                            }))
+                        console.log(this.DataArray.FavoriteDataArray)
+                    }
+                })
+            this.setAttribute("data-toggle", "modal");
+            this.setAttribute("data-target", "#modiftyModal");
+        },
     }
 
 
@@ -102,4 +133,10 @@ function postFavoriteId(tempitem) {
         }
         )
         .catch(error => console.error(error))
+}
+
+function modiftyData() {
+    $(this).onclick = function () {
+
+    }
 }
