@@ -541,8 +541,8 @@
                                     </tbody>
                                 </table>
                                 <ul class="prod-form-body">
-                                    <li>
-                                        <table class="prod-detail" id="app">
+                                    <li id="app">
+                                        <table class="prod-detail">
                                             <tr v-for="i in DataArray.FavoriteDataArray">
                                                 <td class="prod-detail-table_prod_img"><img :src="[`https://i.imgur.com/`+i.PhotoUrl]"></td>
                                                 <td class="prod-detail-table_prod_dt">
@@ -556,9 +556,9 @@
                                                 </td>
                                                 <td class="prod-detail-table_prod_price"><p>NT.{{i.Price}}</p></td>
                                                 <td class="prod-detail-table_remove">
-                                                    <a class="btn btn-primary btn-fav" v-bind:href="[`/Checkout/?id=`+i.FavoriteId]" v-bind:id="[`checkoutbtn`+i.FavoriteId]" name="checkoutbtn"><p>{{button1}}</p></a>
-                                                    <a name="modiftybtn" v-show="!i.IsPackage" v-bind:id="[`modiftybtn`+i.FavoriteId]" class="btn btn-warning btn-fav"   v-on:click=""><p>{{button2}}</p></a>
-                                                    <a class="btn btn-danger btn-fav" v-bind:id="[`deletebtn`+i.FavoriteId]" name="deletebtn"  v-on:click="getSameUserDefindIdProduct"><p>{{button3}}</p></a>
+                                                    <a class="btn btn-primary btn-fav" v-bind:href="[`/Checkout/?id=`+i.FavoriteId]" v-bind:id="[`checkoutbtn`+i.FavoriteId]" name="checkoutbtn">{{button1}}</a>
+                                                    <a name="modiftybtn" v-show="!i.IsPackage" v-bind:id="[`modiftybtn`+i.FavoriteId]" class="btn btn-warning btn-fav" v-on:click="getSameUserDefindIdProduct($event)" onclick="showModal(event)">{{button2}}</a>
+                                                    <a class="btn btn-danger btn-fav" v-bind:id="[`deletebtn`+i.FavoriteId]" name="deletebtn" v-on:click="">{{button3}}</a>
                                                 </td>
                                             </tr>
                                             <div class="modal" tabindex="-1" id="modiftyModal">
@@ -567,28 +567,30 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">更新您的客製化組合</h5>
                                                         </div>
-                                                        <div class="modal-body" v-for="item in SameUserDefindIdProductData.ProductArray">
-                                                            <div class="itemgroup">
-                                                                <div class="item">
-                                                                    <span>空間類型</span>
-                                                                    <select id="roomtype" v-bind:value="item.RoomType">
-                                                                        {{ Roomtypeoptions.name }}
-                                                                    </select>
-                                                                </div>
-                                                                <div class="item">
-                                                                    <span>空間大小</span>
-                                                                    <select id="squarefeet" v-bind:value="item.SquareFeet">
-                                                                        {{ Squareoptions.name }}
-                                                                    </select>
-                                                                </div>
-                                                                <div class="item">
-                                                                    <span>服務項目</span>
-                                                                    <input type="checkbox" id="clean" name="serviceitem" value="0">
-                                                                    <label for="clean">清潔</label>
-                                                                    <input type="checkbox" id="storage" name="serviceitem" value="1">
-                                                                    <label for="storage">收納</label>
-                                                                    <input type="checkbox" id="deworming" name="serviceitem" value="2">
-                                                                    <label for="deworming">除蟲</label>
+                                                        <div class="modal-bodyGroup">
+                                                            <div class="modal-body" v-for="item in SameUserDefindIdProductData.ProductArray">
+                                                                <div class="itemgroup">
+                                                                    <div class="item">
+                                                                        <span>空間類型</span>
+                                                                        <select v-model="item.RoomType" id="roomtype">
+                                                                            <option v-for="a in Roomtypeoptions" :value="a.value">{{ a.name }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="item">
+                                                                        <span>空間大小</span>
+                                                                        <select v-model="item.SquareFeet" id="squarefeet">
+                                                                            <option v-for="b in Squareoptions" :value="b.value">{{ b.name }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="item">
+                                                                        <span>服務項目</span>
+                                                                        <input type="checkbox" id="clean" name="serviceitem" value="0">
+                                                                        <label for="clean">清潔</label>
+                                                                        <input type="checkbox" id="storage" name="serviceitem" value="1">
+                                                                        <label for="storage">收納</label>
+                                                                        <input type="checkbox" id="deworming" name="serviceitem" value="2">
+                                                                        <label for="deworming">除蟲</label>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
