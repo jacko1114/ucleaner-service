@@ -241,10 +241,17 @@ namespace AspNetMVC.Services
         }
         public List<UserDefinedAll> SearchAllUserDefined(Guid favoriteid)
         {
-            var item = _repository.GetAll<UserFavorite>().First(x => x.FavoriteId == favoriteid);
-            var result = _repository.GetAll<UserDefinedProduct>().Where(x => x.UserDefinedId == item.UserDefinedId);
+            var item = _repository.GetAll<UserFavorite>().FirstOrDefault(x => x.FavoriteId == favoriteid);
+            var result = _repository.GetAll<UserDefinedProduct>().Where(x => x.UserDefinedId == item.UserDefinedId).Select(x => new UserDefinedAll
+            {
+                RoomType = x.RoomType,
+                Index = x.Index,
+                ServiceItem = x.ServiceItems,
+                Squarefeet = x.Squarefeet
 
-            return (List<UserDefinedAll>)result;
+            });
+
+            return result.ToList();
         }
         public OperationResult DeleteFavoriteData(Guid favoriteId)
         {
@@ -266,7 +273,7 @@ namespace AspNetMVC.Services
             }
             return result;
         }
-        public OperationResult modifyUserDefined(Guid userDefinedId,int index, UserDefinedAll userDefinedall)
+        public OperationResult modifyUserDefined(Guid userDefinedId, int index, UserDefinedAll userDefinedall)
         {
             var result = new OperationResult();
             var singleitem = _repository.GetAll<UserDefinedProduct>().Where(x => x.UserDefinedId == userDefinedId).FirstOrDefault(x => x.Index == index);
@@ -281,7 +288,7 @@ namespace AspNetMVC.Services
                 singleitem.EditTime = DateTime.UtcNow.AddHours(8);
                 singleitem.EditUser = singleitem.AccountName;
                 _repository.Update<UserDefinedProduct>(singleitem);
-                
+
                 _context.SaveChanges();
                 result.IsSuccessful = true;
 
