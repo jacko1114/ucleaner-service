@@ -2,6 +2,7 @@
 using AspNetMVC.Models;
 using AspNetMVC.Models.Entity;
 using AspNetMVC.Repository;
+using AspNetMVC.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -295,12 +296,5 @@ namespace AspNetMVC.Services {
 			return _repository.GetAll<CouponDetail>()
 				.FirstOrDefault(x => x.AccountName == accountName && x.CouponDetailId == couponDetailId && x.State == (int)UseState.Unused);
 		}
-	}
-	public class CouponJson {
-		public Guid CouponDetailId { get; set; }
-		public string CouponName { get; set; }
-		public decimal DiscountAmount { get; set; }
-		public string DateEnd { get; set; }
-		public int State { get; set; }
 	}
 }

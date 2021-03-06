@@ -19,11 +19,9 @@ using System.Web.Mvc;
 namespace AspNetMVC.Controllers {
 	public class CheckoutController : Controller {
 		private readonly CheckoutService _checkoutService;
-		private readonly UserFavoriteService _userFavoriteService;
 
 		public CheckoutController() {
 			_checkoutService = new CheckoutService();
-			_userFavoriteService = new UserFavoriteService();
 		}
 		[HttpGet]
 		public ActionResult Index(string id) {
@@ -130,21 +128,6 @@ namespace AspNetMVC.Controllers {
 				{ "TradeDesc", ecpayForm.TradeDesc },
 			};
 			string Parameters = string.Join("&", paramList.Select(x => $"{x.Key}={x.Value}").OrderBy(x => x));
-
-			//string Parameters = string.Format("ChoosePayment={0}&ClientBackURL={1}&EncryptType={2}&ItemName={3}&MerchantID={4}&MerchantTradeDate={5}&MerchantTradeNo={6}&PaymentType={7}&ReturnURL={8}&TotalAmount={9}&TradeDesc={10}",
-			//	ecpayForm.ChoosePayment,
-			//	ecpayForm.ClientBackURL,
-			//	ecpayForm.EncryptType,
-			//	ecpayForm.ItemName,
-			//	ecpayForm.MerchantID,
-			//	ecpayForm.MerchantTradeDate,
-			//	ecpayForm.MerchantTradeNo,
-			//	//ecpayForm.OrderResultURL,
-			//	ecpayForm.PaymentType,
-			//	ecpayForm.ReturnURL,
-			//	ecpayForm.TotalAmount,
-			//	ecpayForm.TradeDesc
-			//);
 
 			ecpayForm.CheckMacValue = GetCheckMacValue(HashKey, Parameters, HashIV);
 
@@ -258,42 +241,5 @@ namespace AspNetMVC.Controllers {
 		public ActionResult GetDistricts() {
 			return Json(CountyModels.County, JsonRequestBehavior.AllowGet);
 		}
-	}
-	public class UserForm {
-		public string FavoriteId { get; set; }
-		public string DateService { get; set; }
-		public string FullName { get; set; }
-		public string Phone { get; set; }
-		public string Email { get; set; }
-		public string County { get; set; }
-		public string District { get; set; }
-		public string Address { get; set; }
-		public string Remark { get; set; }
-		public string InvoiceType { get; set; }
-		public string InvoiceDonateTo { get; set; }
-		public string CouponDetailId { get; set; }
-	}
-	public class ECPayForm {
-		public string CheckMacValue { get; set; }
-		public string ChoosePayment { get; set; }
-		public string ClientBackURL { get; set; }
-		public string EncryptType { get; set; }
-		public string ItemName { get; set; }
-		public string MerchantID { get; set; }
-		public string MerchantTradeDate { get; set; }
-		public string MerchantTradeNo { get; set; }
-		public string OrderResultURL { get; set; }
-		public string PaymentType { get; set; }
-		public string ReturnURL { get; set; }
-		public string TotalAmount { get; set; }
-		public string TradeDesc { get; set; }
-	}
-	public class OrderData {
-		public string AccountName;
-		public Guid FavoriteId;
-		public Guid? CouponDetailId;
-		public decimal FinalPrice;
-		public string MerchantTradeNo;
-		public DateTime Now;
 	}
 }

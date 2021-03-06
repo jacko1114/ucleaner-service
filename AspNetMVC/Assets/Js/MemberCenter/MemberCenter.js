@@ -78,9 +78,7 @@ savePassword.onclick = function savepassword() {
     else if (password == new_pw) {
         success.innerHTML = ``;
         error.innerHTML = `新密碼與原始密碼相同!`;
-    }
-    else
-    {
+    } else {
         fetch(url, {
             method: "POST",
             body: JSON.stringify(data),
@@ -144,6 +142,12 @@ saveCredit.onclick = function () {
                 
             }
         })
-
 }
-
+$('.block-order .btn_detail').on('click', function() {
+    console.log('detail');
+    
+});
+$('.block-order .btn_star').on('click', function() {
+    console.log('star');
+    
+});
